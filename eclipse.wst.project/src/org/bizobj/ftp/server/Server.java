@@ -42,11 +42,8 @@ public class Server {
 			// Check and initialize user properties file
 			File userRepoFile = CONFIG.getUserRepoFile();
 			log.info("User repo properties file is " + userRepoFile.getCanonicalPath());
-			boolean userRepoIsNew = false;
 			if (! userRepoFile.exists()){
 				log.warn("User repo properties file is not exist, begin to create it ...");
-				userRepoIsNew = true;
-				
 				userRepoFile.getParentFile().mkdirs();
 				OutputStream os = new FileOutputStream(userRepoFile);
 				os.write(' ');
@@ -62,19 +59,10 @@ public class Server {
 			UserManager userManager = userManagerFactory.createUserManager();
 			serverFactory.setUserManager(userManager);
 			// Check and initialize user properties file
-			if (userRepoIsNew){
-				log.warn("User repo properties file is new, begin to initialize it and create defaule admin user ...");
-				
-				BaseUser admin = CONFIG.buildWritePermissionUser(adminName,adminPassword);
-				//Before save admin user, we need the file exists already
-				userRepoFile.getParentFile().mkdirs();
-				OutputStream os = new FileOutputStream(userRepoFile);
-				os.write(' ');
-				os.close();
-				userManager.save(admin);
-				
-				log.warn("Admin user created, name = "+admin.getName()+", password="+admin.getPassword()+".");
-			}
+			log.info("Begin to initialize it and create defaule admin user ...");
+			BaseUser admin = CONFIG.buildWritePermissionUser(adminName,adminPassword);
+			userManager.save(admin);
+			log.info("Admin user created, name="+admin.getName()+", password="+admin.getPassword()+".");
 			// start the server
 			server = serverFactory.createServer(); 
 			server.start();
