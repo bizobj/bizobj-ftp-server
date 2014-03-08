@@ -10,18 +10,32 @@ import java.util.List;
 import org.apache.ftpserver.ftplet.Authority;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.apache.ftpserver.usermanager.impl.WritePermission;
+import org.bizobj.ftp.auth.core.CustomAuthPropertiesUserManagerFactory;
 import org.bizobj.ftp.auth.intf.UserPasswordAuthChecker;
 
-
+/**
+ * The configuration and other related procedure
+ * @author root
+ *
+ */
 public class CONFIG {
+	/** The FTP Port number, default is 21 */
 	public static String KEY_PORT = "Port";
+	/** The base folder for a FTP site, default is ~/.bizobj.org/ftp */
 	public static String KEY_FTP_BASE = "FtpBase";
+	/** The folder for every user's FTP home directory, default is ${FtpBase}/home */
 	public static String KEY_HOME_BASE = "HomeBase";
+	/** The user definition properties file, default is ${FtpBase}/conf/user.properties */
 	public static String KEY_USER_FILE = "UserFile";
+	/** The administrator user's name, default is "admin" */
 	public static String KEY_ADMIN_NAME = "AdminName";
+	/** The administrator user's password, default is "password" */
 	public static String KEY_ADMIN_PWD = "AdminPwd";
+	
+	/** The max idle time(in second) of connection, default is 300 seconds */
 	public static String KEY_MAX_IDLE_TIME = "MaxIdleTime";
 	
+	/** The customized user authentication check program's class name, see {@link CustomAuthPropertiesUserManagerFactory} for detail */
 	public static String KEY_AUTH_CHECKER = "AuthChecker";
 	
 	public static String getConfigVar(Class<?> clazz, String key, String defValue){
