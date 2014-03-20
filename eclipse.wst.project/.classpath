@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="WebContent/WEB-INF/classes"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="api-jars/servlet-api-2.5.jar" sourcepath="api-jars/servlet-api-2.5-sources.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ftplet-api-1.0.6.jar" sourcepath="ref-jars/ftplet-api-1.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ftpserver-core-1.0.6.jar" sourcepath="ref-jars/ftpserver-core-1.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jcifs-krb5-1.3.17.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jcl-over-slf4j-1.5.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mina-core-2.0.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.5.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-beans-2.5.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-2.5.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-core-2.5.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="ref-jars/servlet-api-2.5.jar" sourcepath="ref-jars/servlet-api-2.5-sources.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
