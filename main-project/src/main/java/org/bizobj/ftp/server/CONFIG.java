@@ -49,6 +49,11 @@ public class CONFIG {
 		if (null==val){
 			val = defValue;
 		}
+		//Remember the configuration variables as java system property
+		if (null!=val){
+			System.setProperty(propKey, val);
+		}
+		
 		return val;
 	}
 	private static String getVar(String key, String defValue){
@@ -79,7 +84,7 @@ public class CONFIG {
 	}
 	
 	public static File getHome(String userName){
-		String hBase = getVar(KEY_HOME_BASE, getFtpBaseDir()+"/home");
+		String hBase = getVar(KEY_HOME_BASE, getFtpBaseDir()+"/homes");
 		String h = hBase + "/" + userName;
 		File fh = new File(h);
 		return fh;
