@@ -13,10 +13,19 @@ system such as Windows AD.
  * Case 3: User is only defined in other system, in this case, user's properties should
            following the default rule of bizobj-ftp-server.
 
-1. The target runtime environment is Tomcat 7+, If deploy to other application
-   server, please check and modify log4j.properties(Always in WEB-INF/classes);
+Another new feature is "Virtual directory"(FileSystem Mapping), with this function, 
+administrator can define virtual directories for ftp users, these virtual directories
+could be mapped to folder in file system.
+ * The mapping setting file named ".ftp-mapping.json", which stored in admin user's FTP
+   site;
+ * In default, FTP server should mapping "/public" and "/public/upload" to the folders
+   in admin user's FTP site, and create a default ".ftp-mapping.json", so if you want
+   to define your owner ".ftp-mapping.json", read the default first;
 
-2. By default, the ftp user properties file and user's ftp home are posited in
+1. The target runtime environment is Tomcat 7+, If deploy to other application
+   server, modification of log4j.properties(Always in WEB-INF/classes) may needed;
+
+2. By default, the ftp user properties file and user's ftp home are stored in
    "$HOME/.biaobj.org" folder, for example:
     - $HOME/.biaobj.org/conf/user.properties
     - $HOME/.biaobj.org/home/user1
@@ -31,7 +40,7 @@ system such as Windows AD.
    "org.bizobj.ftp.auth.impl.JCIFSUserPasswordAuthChecker_AD_SERVER_ADDR" to specify
    the ip address of AD Server;
 
-5. Following is the example:
+5. Following is the example to customize FTP server in tomcat:
     export JAVA_OPTS="$JAVA_OPTS -Dorg.bizobj.ftp.server.CONFIG_FtpBase=/u01/ftp"
     export JAVA_OPTS="$JAVA_OPTS -Dorg.bizobj.ftp.server.CONFIG_AdminName=ftpadmin"
     export JAVA_OPTS="$JAVA_OPTS -Dorg.bizobj.ftp.server.CONFIG_AdminPwd=1@345^7*"
