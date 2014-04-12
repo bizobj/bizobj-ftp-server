@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.bizobj</groupId>
 	<artifactId>ftp-server</artifactId>
-	<version>0.1</version>
+	<version>20140421</version>
 	<packaging>war</packaging>
 	<name>bizobj-ftp-server</name>
 	<description>FTP Server build upon apache ftp server</description>
