@@ -8,21 +8,46 @@ system such as Windows AD.
  * Case 1: User and it's password are all defined in user properties file;
  * Case 2: User is defined both in properties file and other system, so the password
            in properties file should be override by other system, but other user
-           properties(such as home folder, max idle time, etc.) should follow properties
-           file.
- * Case 3: User is only defined in other system, in this case, user's properties should
-           following the default rule of bizobj-ftp-server.
+           properties(such as home folder, max idle time, etc.) should follow
+           properties file.
+ * Case 3: User is only defined in other system, in this case, user's properties
+           should follow the default rule of bizobj-ftp-server.
 
-Another new feature is "Virtual directory"(FileSystem Mapping), with this function, 
-administrator can define virtual directories for ftp users, these virtual directories
-could be mapped to folders in file system.
- * The mapping setting file named ".ftp-mapping.json", which stored in admin user's FTP
-   site;
- * In default, FTP server should mapping "/public" and "/public/upload" to the folders
-   in admin user's FTP site(for every ftp user, "/public" is readonly, and redirected to
-   the folder "${admin's home}/public"; "/public/upload" is writable, redirected to folder
-   "${admin's home}/public/upload"); Server should create a default ".ftp-mapping.json",
-   so if you want to define your owner, read the default first;
+Another new feature is "Virtual directory"(FileSystem Mapping), with this
+function, administrator can define virtual directories for ftp users, these
+virtual directories could be mapped to folders in file system.
+ * The mapping setting file named ".ftp-mapping.json", which stored in admin
+   user's FTP site;
+ * In default, FTP server should mapping "/public" and "/public/upload" to the
+   folders in admin user's FTP site(for every ftp user, "/public" is readonly,
+   and redirected to the folder "${admin's home}/public"; "/public/upload" is
+   writable, redirected to folder "${admin's home}/public/upload");
+ * FTP Server should create a default ".ftp-mapping.json", so if you want to
+   define your owner, read the default first;
+ * Following is an example of ".ftp-mapping.json":
+		{
+			"mappings":{
+				".*":[
+					{
+						"ftpPath":"/public/upload",
+						"realFile":"/home/u01/ftp/homes/admin/public/upload",
+						"writable":true
+					},
+					{
+						"ftpPath":"/public",
+						"realFile":"/home/u01/ftp/homes/admin/public",
+						"writable":false
+					},
+					{
+						"ftpPath":"/temp",
+						"realFile":"/home/u01/ftp/temp",
+						"writable":true
+					}
+				]
+			}
+		}
+
+================================================================================
 
 1. The target runtime environment is Tomcat 7+, If deploy to other application
    server, modification of log4j.properties(Always in WEB-INF/classes) may needed;
