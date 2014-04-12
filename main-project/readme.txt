@@ -21,8 +21,8 @@ could be mapped to folders in file system.
  * In default, FTP server should mapping "/public" and "/public/upload" to the folders
    in admin user's FTP site(for every ftp user, "/public" is readonly, and redirected to
    the folder "${admin's home}/public"; "/public/upload" is writable, redirected to folder
-   "${admin's home}/public/upload"), and create a default ".ftp-mapping.json", so if you
-   want to define your owner ".ftp-mapping.json", read the default first;
+   "${admin's home}/public/upload"); Server should create a default ".ftp-mapping.json",
+   so if you want to define your owner, read the default first;
 
 1. The target runtime environment is Tomcat 7+, If deploy to other application
    server, modification of log4j.properties(Always in WEB-INF/classes) may needed;
