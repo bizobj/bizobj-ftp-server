@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -16,6 +15,9 @@ import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.apache.log4j.Logger;
 import org.bizobj.ftp.auth.core.CustomAuthPropertiesUserManagerFactory;
+import org.bizobj.ftp.fs.mapping.MappingNativeFileSystemFactory;
+
+import com.alibaba.fastjson.JSON;
 
 public class Server {
 	private static final Logger log = Logger.getLogger(Server.class);
@@ -63,6 +65,10 @@ public class Server {
 			BaseUser admin = CONFIG.buildWritePermissionUser(adminName,adminPassword);
 			userManager.save(admin);
 			log.info("Admin user created, name="+admin.getName()+", password="+admin.getPassword()+".");
+			// Initialize mapping file system
+			MappingNativeFileSystemFactory mfsf = CONFIG.buildMappingFileSystemFactory(admin);
+			serverFactory.setFileSystem(mfsf);
+			log.info("Create filesystem with mapping: \n" + JSON.toJSONString(mfsf.getMappings(), true));
 			// start the server
 			server = serverFactory.createServer(); 
 			server.start();

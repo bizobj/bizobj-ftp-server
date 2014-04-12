@@ -12,6 +12,13 @@ import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.apache.ftpserver.usermanager.impl.WritePermission;
 import org.bizobj.ftp.auth.core.CustomAuthPropertiesUserManagerFactory;
 import org.bizobj.ftp.auth.intf.UserPasswordAuthChecker;
+import org.bizobj.ftp.fs.mapping.MappingModel;
+import org.bizobj.ftp.fs.mapping.MappingNativeFileSystemFactory;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 /**
  * The configuration and other related procedure
@@ -37,6 +44,9 @@ public class CONFIG {
 	
 	/** The customized user authentication check program's class name, see {@link CustomAuthPropertiesUserManagerFactory} for detail */
 	public static String KEY_AUTH_CHECKER = "AuthChecker";
+	
+	/** The json (see {@link MappingModel}) file in admin's home, to define the FTP Mappings */
+	private static String FIXED_FTP_MAPPING_CONFIG_FILE_OF_ADMIN = ".ftp-mapping.json";
 	
 	public static String getConfigVar(Class<?> clazz, String key, String defValue){
 		String propKey = clazz.getName() + "_" + key;
@@ -156,5 +166,44 @@ public class CONFIG {
 		}
 	}
 	
-
+	private static MappingModel initDefaultFileSystemMappingModel(BaseUser admin, File mjFile){
+		try {
+			File pub = new File(admin.getHomeDirectory() + "/public");
+			File upl = new File(admin.getHomeDirectory() + "/public/upload");
+			MappingModel mm = new MappingModel();
+			
+			// /public/upload is writable
+			mm.addMapping(".*", "/public/upload", upl, true);
+			// /public is readonly
+			mm.addMapping(".*", "/public", pub, false);
+			String json = JSON.toJSONString(mm, SerializerFeature.PrettyFormat);
+			
+			Files.write(json, mjFile, Charsets.UTF_8);
+			
+			return mm;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static MappingNativeFileSystemFactory buildMappingFileSystemFactory(BaseUser admin){
+		try {
+			String mappingJson = admin.getHomeDirectory() + "/" + FIXED_FTP_MAPPING_CONFIG_FILE_OF_ADMIN;
+			MappingModel mm;
+			File mjFile = new File(mappingJson);
+			if (! mjFile.exists()){
+				mm = initDefaultFileSystemMappingModel(admin, mjFile);
+			}else{
+				String json = Files.toString(mjFile, Charsets.UTF_8);
+				try {
+					mm = JSON.parseObject(json, MappingModel.class);
+				} catch (Throwable e) {
+					mm = new MappingModel();	//If error return BLANK;
+				}
+			}
+			return new MappingNativeFileSystemFactory(mm);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

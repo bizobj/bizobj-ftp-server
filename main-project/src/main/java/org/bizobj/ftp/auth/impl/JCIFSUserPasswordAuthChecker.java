@@ -12,8 +12,12 @@ import org.apache.log4j.Logger;
 import org.bizobj.ftp.auth.intf.UserPasswordAuthChecker;
 import org.bizobj.ftp.server.CONFIG;
 
-
+/**
+ * Check user name and password from Active Directory Server
+ * @author thinkbase
+ */
 public class JCIFSUserPasswordAuthChecker implements UserPasswordAuthChecker {
+	/** The key of environment variable or java system property to indicate the AD Server Address  */
 	public static final String KEY_AD_SERVER_ADDR = "AD_SERVER_ADDR";
 	
 	private static final Logger log = Logger.getLogger(JCIFSUserPasswordAuthChecker.class);

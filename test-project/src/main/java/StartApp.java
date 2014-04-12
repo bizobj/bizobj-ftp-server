@@ -2,6 +2,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.bizobj.jetty.ContextStarter;
+import org.bizobj.test.debugonly.DebugOnlyUserPasswordAuthChecker;
 
 /**
  * Start the test App.
@@ -21,9 +22,9 @@ public class StartApp {
     	System.setProperty("org.bizobj.ftp.server.CONFIG_Port", "2121");
     	//Set ftp base folder
     	System.setProperty("org.bizobj.ftp.server.CONFIG_FtpBase", serverBase);
+    	//Setup a debug-purpose AuthChecker, just for debugging only
+    	System.setProperty("org.bizobj.ftp.server.CONFIG_AuthChecker", DebugOnlyUserPasswordAuthChecker.class.getName());
         //Start App ...
         ContextStarter.startServer(warFolder);
-        
-        
     }
 }
