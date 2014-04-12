@@ -8,7 +8,7 @@
   	<dependency>
   		<groupId>org.bizobj</groupId>
   		<artifactId>ftp-server</artifactId>
-  		<version>0.1</version>
+  		<version>20140421</version>
   	</dependency>
   	<dependency>
   		<groupId>org.bizobj</groupId>
