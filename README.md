@@ -22,7 +22,7 @@ Based on [File based user manager](http://mina.apache.org/ftpserver-project/conf
 
 ### FileSystem Mapping
 
-Every user has standalone file system, read `MappingNativeFileSystemFactory` for detail. And `admin` user has additional mapping configuration, see `MappingModel.java` for detail.
+Every user has standalone file system, read `MappingNativeFileSystemFactory.java` for detail. And `admin` user has additional mapping configuration, see `MappingModel.java` for detail.
 
 ## FTPS(*FTP over SSL*) Support
 
