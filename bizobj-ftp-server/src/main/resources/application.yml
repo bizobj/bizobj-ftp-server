@@ -1,0 +1,13 @@
+ftp.server.port: 2121
+ftp.server.max-idle-seconds: 300
+ftp.server.auth-checker-class: org.bizobj.ftpserver.ftp.auth.core.impl.DebugOnlyUserPasswordAuthChecker
+
+ftp.server.ftp-base: ${user.dir}/ftp
+ftp.server.ftp-home: ${ftp.server.ftp-base}/home
+
+ftp.server.admin.name: admin
+ftp.server.admin.password: PaSsWoRd
+
+ftp.server.keystore.resource-path: classpath:keystore/ftpserver.jks
+ftp.server.keystore.password: password
+
