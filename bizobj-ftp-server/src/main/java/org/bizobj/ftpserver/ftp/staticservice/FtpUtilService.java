@@ -2,11 +2,13 @@ package org.bizobj.ftpserver.ftp.staticservice;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.ftpserver.ftplet.Authority;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
@@ -15,7 +17,10 @@ import org.bizobj.ftpserver.cfg.ConfigProperties;
 import org.bizobj.ftpserver.ftp.auth.intf.UserPasswordAuthChecker;
 import org.bizobj.ftpserver.ftp.fs.mapping.MappingModel;
 import org.bizobj.ftpserver.ftp.fs.mapping.MappingNativeFileSystemFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -23,6 +28,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 
 @Component
 public class FtpUtilService {
+	private static final Logger log = LoggerFactory.getLogger(FtpUtilService.class);
+
 	/** The json (see {@link MappingModel}) file in admin's home, to define the FTP Mappings */
 	private static String FIXED_FTP_MAPPING_CONFIG_FILE_OF_ADMIN = ".ftp-mapping.json";
 	
@@ -32,11 +39,38 @@ public class FtpUtilService {
 		FtpUtilService.CONFIG = config;
 	}
 	
-	public static File getHome(String userName){
+	private static File getHome(String userName){
 		String hBase = CONFIG.getFtpHome();
 		String h = hBase + "/" + userName;
 		File fh = new File(h);
 		return fh;
+	}
+	
+	private static File getFtpSubDir(String dirName) {
+		File dir = new File(new File(CONFIG.getFtpBase()), dirName);
+		if (! dir.exists()) {
+			dir.mkdirs();
+		}
+		return dir;
+	}
+	
+	public static File getUserProperties() throws IOException {
+		File conf = getFtpSubDir("conf");
+		File userRepoFile = new File(conf, "user.properties");
+		if (! userRepoFile.exists()){
+			log.warn("User repo properties file is not exist, begin to create it ...");
+			FileUtils.write(userRepoFile, "", StandardCharsets.UTF_8);
+		}
+		return userRepoFile;
+	}
+	
+	public static File getTempResourceFile(Resource resource, String fileName) throws IOException {
+		File tmp = getFtpSubDir("tmp");
+		File tmpKS = new File(tmp, fileName);
+		try (InputStream in = resource.getInputStream()){
+			FileUtils.writeByteArrayToFile(tmpKS, IOUtils.toByteArray(in));
+		}
+		return tmpKS;
 	}
 	
 	public static BaseUser buildWritePermissionUser(String userName, String password) {
